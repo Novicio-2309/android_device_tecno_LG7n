@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_LG7n.mk
+    $(LOCAL_DIR)/infinity_LG7n.mk
