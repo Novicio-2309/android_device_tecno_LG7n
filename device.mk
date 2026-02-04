@@ -29,6 +29,13 @@ PRODUCT_PACKAGES += \
     SettingsProviderOverlayLG7n \
     SystemUIOverlayLG7n
 
+# OverlayforDerpstring
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay
+
+PRODUCT_PACKAGES += \
+    RemovePkgs
+
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
 
@@ -45,3 +52,6 @@ $(call inherit-product, device/tecno/mt6789-common/common.mk)
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/tecno/LG7n/LG7n-vendor.mk)
+
+# Signingkey
+-include vendor/lineage-priv/keys/keys.mk
