@@ -29,6 +29,9 @@ PRODUCT_PACKAGES += \
     SettingsProviderOverlayLG7n \
     SystemUIOverlayLG7n
 
+PRODUCT_PACKAGES += \
+    RemovePkgs
+
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
 
