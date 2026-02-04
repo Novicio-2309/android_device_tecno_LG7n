@@ -12,10 +12,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/tecno/LG7n/device.mk)
 
 # Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+$(call inherit-product, vendor/lumine/config/common_full_phone.mk)
 
 BOARD_VENDOR := TECNO
-PRODUCT_NAME := lineage_LG7n
+PRODUCT_NAME := lumine_LG7n
 PRODUCT_DEVICE := LG7n
 PRODUCT_MANUFACTURER := TECNO
 PRODUCT_BRAND := TECNO
@@ -27,9 +27,10 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     DeviceName=LG7n \
     BuildFingerprint=TECNO/LG7n-GL/TECNO-LG7n:12/SP1A.210812.016/240530V1767:user/release-keys
 
-# Evox Flag
-EVO_BUILD_TYPE := Unofficial
+# LumineDroid Flag
+LUMINE_MAINTAINER := Novicio+MillenniumTeam
 TARGET_BOOT_ANIMATION_RES := 720
 TARGET_BUILD_APERTURE_CAMERA := false
-TARGET_DISABLE_EPPE := true
+LUMINE_MAINTAINER_LINK := https://github.com/Novicio-2309
 PERF_ANIM_OVERRIDE := true
+LUMINE_BUILD_TYPE := UNOFFICIAL
