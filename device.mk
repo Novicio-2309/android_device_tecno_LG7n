@@ -32,6 +32,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     RemovePkgs
 
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-miku
+
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
 
