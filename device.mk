@@ -33,10 +33,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     RemovePkgs
 
-# Evox
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-evox
-
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
 
