@@ -33,3 +33,5 @@ TARGET_BOOT_ANIMATION_RES := 720
 TARGET_BUILD_APERTURE_CAMERA := false
 TARGET_DISABLE_EPPE := true
 PERF_ANIM_OVERRIDE := true
+WITH_GAPPS := true
+$(call inherit-product, vendor/gapps/config.mk)
