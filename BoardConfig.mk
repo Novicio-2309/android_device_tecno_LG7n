@@ -7,6 +7,11 @@
 # Include the common OEM chipset BoardConfig.
 include device/tecno/mt6789-common/BoardConfigCommon.mk
 
+# Path Definitions - Dito natin i-fix para hindi mag-null sa Miku UI
+# Siguraduhin na ang mga folder na ito ay tumutugma sa actual files mo.
+COMMON_GKI_PATH := device/tecno/mt6789-common/ILAGAY_DITO_KUNG_NASAAN_ANG_KERNEL
+KERNEL_PATH := $(COMMON_GKI_PATH)
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := luminance
 
@@ -23,23 +28,36 @@ BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 # Kernel
 TARGET_NO_KERNEL_OVERRIDE := true
 LOCAL_KERNEL := $(COMMON_GKI_PATH)/Image.gz
+
+# I-verify kung nage-exist ang kernel bago i-copy para maiwasan ang packaging error
 PRODUCT_COPY_FILES += \
-	$(LOCAL_KERNEL):kernel
+    $(LOCAL_KERNEL):kernel
 
 # Kernel modules
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load))
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
+# Ginamitan natin ng wildcard check para hindi mag-crash ang build kung walang makitang file
+ifeq ($(wildcard $(KERNEL_PATH)/ramdisk/modules.load),)
+    $(warning WARNING: modules.load not found in $(KERNEL_PATH)/ramdisk/)
+else
+    BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load))
+    BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
+endif
 
-# Also add recovery modules to vendor ramdisk
-BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load.recovery))
-RECOVERY_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD))
+# Recovery modules
+ifeq ($(wildcard $(KERNEL_PATH)/ramdisk/modules.load.recovery),)
+    $(warning WARNING: modules.load.recovery not found!)
+else
+    BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load.recovery))
+    RECOVERY_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD))
+    BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES) $(RECOVERY_MODULES))
+endif
 
-# Prevent duplicated entries (to solve duplicated build rules problem)
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES) $(RECOVERY_MODULES))
-
-# Vendor modules (installed to vendor_dlkm)
-BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_dlkm/modules.load))
-BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(KERNEL_PATH)/vendor_dlkm/*.ko)
+# Vendor modules (vendor_dlkm)
+ifeq ($(wildcard $(KERNEL_PATH)/vendor_dlkm/modules.load),)
+    $(warning WARNING: vendor_dlkm modules.load not found!)
+else
+    BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_dlkm/modules.load))
+    BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(KERNEL_PATH)/vendor_dlkm/*.ko)
+endif
 
 # OTA assert
 TARGET_OTA_ASSERT_DEVICE := LG7n,TECNO-LG7n,lg7n
