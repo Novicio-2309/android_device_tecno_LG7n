@@ -7,9 +7,9 @@
 # Include the common OEM chipset BoardConfig.
 include device/tecno/mt6789-common/BoardConfigCommon.mk
 
-# DITO NATIN I-FIX: Gagamit tayo ng path sa loob ng LG7n folder
-# Siguraduhin na may folder ka na 'prebuilts' sa device/tecno/LG7n/
-KERNEL_PATH := device/tecno/LG7n/prebuilts
+# FIX: Base sa manifest, dito nakalagay ang kernel files mo
+COMMON_GKI_PATH := device/tecno/LG7n-kernel
+KERNEL_PATH := $(COMMON_GKI_PATH)
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := luminance
@@ -20,19 +20,19 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 # Display
 TARGET_SCREEN_DENSITY := 296
 
-# DTB
+# DTB - Kinukuha mula sa LG7n-kernel folder
 BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
 BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 
 # Kernel
 TARGET_NO_KERNEL_OVERRIDE := true
-LOCAL_KERNEL := $(KERNEL_PATH)/Image.gz
+LOCAL_KERNEL := $(COMMON_GKI_PATH)/Image.gz
 
-# Verify and Copy Kernel Image
+# Copy Kernel Image para sa final zip
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
-# Kernel modules (Safe check para sa Miku UI)
+# Kernel modules (Safe check para sa Miku UI packaging)
 ifneq ($(wildcard $(KERNEL_PATH)/ramdisk/modules.load),)
     BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load))
     BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
@@ -58,8 +58,8 @@ TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/properties/vendor.prop
 # SEPolicy
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
-# Workaround para sa Soong (i-comment out kung wala kang kernel-headers folder)
-# TARGET_KERNEL_SOURCE := $(KERNEL_PATH)/kernel-headers
+# Workaround para sa Soong headers
+TARGET_KERNEL_SOURCE := $(COMMON_GKI_PATH)/kernel-headers
 
 # Inherit the proprietary files
 include vendor/tecno/LG7n/BoardConfigVendor.mk
