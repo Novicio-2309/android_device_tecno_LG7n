@@ -1,47 +1,27 @@
-#
-# Copyright (C) 2023 The LineageOS Project
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
-# Include the common OEM chipset BoardConfig.
+# Include the common chipset BoardConfig
 include device/tecno/mt6789-common/BoardConfigCommon.mk
 
-# FIX: Base sa manifest, dito nakalagay ang kernel files mo
-COMMON_GKI_PATH := device/tecno/LG7n-kernel
-KERNEL_PATH := $(COMMON_GKI_PATH)
+# Path Definitions base sa manifest mo
+KERNEL_PATH := device/tecno/LG7n-kernel
+COMMON_KERNEL_PATH := device/millennium/common-kernel
 
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := luminance
-
-# Boot image
+# Boot image & DTB (Galing sa LG7n-kernel folder)
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-
-# Display
-TARGET_SCREEN_DENSITY := 296
-
-# DTB - Kinukuha mula sa LG7n-kernel folder
 BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
 BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 
-# Kernel
+# Kernel Image (Dito galing sa common-kernel folder)
 TARGET_NO_KERNEL_OVERRIDE := true
-LOCAL_KERNEL := $(COMMON_GKI_PATH)/Image.gz
+LOCAL_KERNEL := $(COMMON_KERNEL_PATH)/Image.gz
 
-# Copy Kernel Image para sa final zip
+# I-copy ang kernel image para sa final build
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
-# Kernel modules (Safe check para sa Miku UI packaging)
+# Kernel modules (Base sa screenshot mo: dtb, ramdisk, vendor_dlkm)
 ifneq ($(wildcard $(KERNEL_PATH)/ramdisk/modules.load),)
     BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load))
     BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
-endif
-
-ifneq ($(wildcard $(KERNEL_PATH)/ramdisk/modules.load.recovery),)
-    BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/ramdisk/modules.load.recovery))
-    RECOVERY_MODULES := $(addprefix $(KERNEL_PATH)/ramdisk/, $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD))
-    BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES) $(RECOVERY_MODULES))
 endif
 
 ifneq ($(wildcard $(KERNEL_PATH)/vendor_dlkm/modules.load),)
@@ -49,17 +29,11 @@ ifneq ($(wildcard $(KERNEL_PATH)/vendor_dlkm/modules.load),)
     BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(KERNEL_PATH)/vendor_dlkm/*.ko)
 endif
 
-# OTA assert
+# OTA Assertions
 TARGET_OTA_ASSERT_DEVICE := LG7n,TECNO-LG7n,lg7n
-
-# Properties
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/properties/vendor.prop
 
 # SEPolicy
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
-# Workaround para sa Soong headers
-TARGET_KERNEL_SOURCE := $(COMMON_GKI_PATH)/kernel-headers
-
-# Inherit the proprietary files
+# Inherit proprietary files
 include vendor/tecno/LG7n/BoardConfigVendor.mk
