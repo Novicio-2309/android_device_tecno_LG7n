@@ -53,4 +53,4 @@ $(call inherit-product, device/tecno/mt6789-common/common.mk)
 $(call inherit-product, vendor/tecno/LG7n/LG7n-vendor.mk)
 
 # Signingkey
--include vendor/lineage-priv/keys/keys.mk
+-include vendor/miku-priv/keys/keys.mk
