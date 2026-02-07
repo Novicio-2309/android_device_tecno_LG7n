@@ -27,7 +27,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	FrameworksResOverlayLG7n \
     SettingsProviderOverlayLG7n \
-    SettingsOverlayLG7n \
     SystemUIOverlayLG7n
 
 PRODUCT_PACKAGES += \
