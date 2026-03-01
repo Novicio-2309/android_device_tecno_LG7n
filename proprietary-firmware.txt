@@ -1,0 +1,15 @@
+## All proprietary files from this list, unless pinned and noted otherwise, are
+## from LG7n-H892ABCD-S-GL-240530V1767
+
+dpm.img;AB
+gz.img;AB
+lk.img;AB|8ce79dd106ba75b1a1c433775e532004418ab43e
+logo.bin:logo.img;AB|beffde839510ac40c37c3f3e506dd76ec3e32e61
+mcupm.img;AB
+md1img.img;AB
+pi_img.img;AB
+scp.img;AB
+spmfw.img;AB
+sspm.img;AB
+tee.img;AB
+tkv.img;AB
