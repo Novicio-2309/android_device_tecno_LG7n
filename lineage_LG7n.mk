@@ -32,6 +32,6 @@ LUNARIS_BUILD_TYPE := Community
 TARGET_BOOT_ANIMATION_RES := 720
 TARGET_CUSTOM_UDFPS := false
 TARGET_DISABLE_EPPE := true
-WITH_GMS := true
-WITH_BCR := true
-TARGET_SUPPORTED_REFRESH_RATES := 60,90
+SURFACE_FLINGER_BOOST := true
+$(call soong_config_set,surfaceflinger,frame_rate_category_high,90)
+$(call soong_config_set,surfaceflinger,frame_rate_category_min,60)
