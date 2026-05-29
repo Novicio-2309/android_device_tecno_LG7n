@@ -47,6 +47,7 @@ TARGET_OTA_ASSERT_DEVICE := LG7n,lg7n
 # Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/properties/vendor.prop
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/properties/system.prop
+TARGET_PRODUCT_PROP += $(DEVICE_PATH)/configs/properties/product.prop
 
 # SEPolicy
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
