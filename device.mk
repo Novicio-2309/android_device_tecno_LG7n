@@ -34,7 +34,7 @@ PRODUCT_PACKAGES += \
 
 # Evox
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-evox
+    $(LOCAL_PATH)/overlay-lunar
 
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
