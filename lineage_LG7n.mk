@@ -31,6 +31,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 LUNARIS_BUILD_TYPE := Community
 TARGET_BOOT_ANIMATION_RES := 720
 TARGET_CUSTOM_UDFPS := false
+TARGET_SUPPORTS_GOOGLE_TELEPHONY := false
 TARGET_DISABLE_EPPE := true
 SURFACE_FLINGER_BOOST := true
 $(call soong_config_set,surfaceflinger,frame_rate_category_high,90)
